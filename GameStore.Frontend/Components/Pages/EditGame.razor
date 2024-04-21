@@ -1,8 +1,15 @@
 ﻿@page "/editgame"
 @using Models
+@using Clients
 
 <PageTitle>New game</PageTitle>
 <h3>New Game</h3>
+@if(genres is null) 
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
 <div class="row">
     <div class="col-md-4">
         <EditForm Model="@game" FormName="editGame">
@@ -12,7 +19,13 @@
         </div>
         <div class="mb-3">
             <label for="genre" class="form-label">Genre:</label>
-            <InputSelect id="genre" @bind-Value="game.GenreId" class="form-select"/>
+            <InputSelect id="genre" @bind-Value="game.GenreId" class="form-select">
+                <option value="">Select a genre</option>
+                @foreach (var genre in genres)
+                {
+                    <option value="@genre.Id">@genre.Name</option>
+                }
+            </InputSelect>
         </div>
         <div class="mb-3">
             <label for="price" class="form-label">Price:</label>
@@ -25,10 +38,20 @@
         </EditForm>
     </div>
 </div>
+}
 @code {
     private GameDetails game {get; set;} = new()
     {
         Name = string.Empty,
         ReleaseDate = DateOnly.FromDateTime(DateTime.UtcNow)
     };
+
+    private GenresClient genresClient = new();
+
+    private Genre[]? genres;
+
+    protected override void OnInitialized()
+    {
+        genres = genresClient.GetGenres();
+    }
 }
