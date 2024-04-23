@@ -1,0 +1,30 @@
+GET http://localhost:5240/games
+
+###
+GET http://localhost:5240/games/1
+
+###
+POST http://localhost:5240/games
+Content-Type: application/json
+
+{
+    "name": "Minecraft",
+    "genre": "Survival",
+    "price": 19.99,
+    "releaseDate": "2011-11-11"
+}
+
+###
+PUT http://localhost:5240/games/1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "name": "Starfield ESO",
+  "genre": "RPG",
+  "price": 59.99,
+  "releaseDate": "2024-02-10"
+}
+
+###
+DELETE http://localhost:5240/games/1
